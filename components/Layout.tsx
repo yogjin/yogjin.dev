@@ -15,7 +15,7 @@ const Layout = ({ children }: PropsWithChildren<LayoutProps>) => {
       >
         <Nav />
         <div className={`flex items-center`}>
-          <span className={`mx-2 font-black text-lg font-logo`}>
+          <span className={`mx-2 text-2xl font-black font-logo`}>
             yogjin.dev
           </span>
         </div>
