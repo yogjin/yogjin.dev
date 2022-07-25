@@ -3,10 +3,14 @@ import Link from 'next/link';
 
 const Nav = () => {
   return (
-    <nav>
+    <nav className="flex sm:justify-center space-x-4">
       {navlinks.map((navlink) => (
         <Link href={navlink.link} key={navlink.title}>
-          <a className={`mr-5`}>{navlink.title}</a>
+          <a
+            className={`rounded-lg px-3 py-2 font-medium text-slate-700 hover:bg-slate-100 hover:text-slate-900`}
+          >
+            {navlink.title}
+          </a>
         </Link>
       ))}
     </nav>
