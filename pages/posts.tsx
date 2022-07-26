@@ -1,5 +1,6 @@
 import type { InferGetStaticPropsType, NextPage } from 'next';
 import Link from 'next/link';
+import Date from '../components/date';
 import { getAllPostIds, getAllPostsData } from '../lib/posts';
 
 const Posts = ({
@@ -15,7 +16,7 @@ const Posts = ({
           <Link href={`/posts/${postData.postId}`} key={postData.postId}>
             <a className={`my-6`}>
               <div className={`text-3xl font-medium`}>{postData.title}</div>
-              <div className={`text-xl my-2`}>{postData.date}</div>
+              <Date dateString={postData.date} />
             </a>
           </Link>
         ))}

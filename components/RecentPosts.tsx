@@ -1,6 +1,7 @@
 import Link from 'next/link';
 import { FC } from 'react';
 import { PostMetaData } from '../interfaces/post';
+import Date from './date';
 
 interface RecentPostsProps {
   postDatas: PostMetaData[];
@@ -14,7 +15,7 @@ const RecentPosts: FC<RecentPostsProps> = ({ postDatas }) => {
           <Link href={`/posts/${postData.postId}`} key={postData.postId}>
             <a className={`mt-6`}>
               <div className={`text-2xl font-medium`}>{postData.title}</div>
-              <div className={`text-xl my-1`}>{postData.date}</div>
+              <Date dateString={postData.date} />
             </a>
           </Link>
         ))}
