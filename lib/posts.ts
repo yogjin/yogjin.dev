@@ -45,6 +45,7 @@ export async function getPostData(postId: string) {
 }
 
 // Use for RecentPosts.tsx
+// Show recent 5 posts
 export function getRecentPostsData() {
   const postFiles = fs.readdirSync(postsDirectory);
   const postFrontMatters: PostMetaData[] = postFiles.map((postFile) => {
@@ -60,5 +61,16 @@ export function getRecentPostsData() {
     return frontMatter;
   });
 
-  return postFrontMatters;
+  const RecentPostsDataFive = postFrontMatters
+    .sort(({ date: a }, { date: b }) => {
+      if (a > b) {
+        return -1;
+      } else if (a < b) {
+        return 1;
+      } else {
+        return 0;
+      }
+    })
+    .slice(0, 5);
+  return RecentPostsDataFive;
 }
