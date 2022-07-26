@@ -4,7 +4,23 @@ import matter from 'gray-matter';
 import { remark } from 'remark';
 import remarkHtml from 'remark-html';
 import { PostMetaData } from '../interfaces/post';
+import { GetStaticPathsResult } from 'next';
 const postsDirectory = path.join(process.cwd(), 'posts');
+
+// Use for getStaticPaths in [postId].tsx
+export function getAllPostIds(): GetStaticPathsResult['paths'] {
+  const postFiles = fs.readdirSync(postsDirectory);
+  // Remove .mdx
+  const posts = postFiles.map((postFile) => {
+    const postId = postFile.replace(/\.mdx/, '');
+    return {
+      params: {
+        postId,
+      },
+    };
+  });
+  return posts;
+}
 
 export async function getPostData(postId: string) {
   const filePath = path.join(postsDirectory, `${postId}.mdx`);

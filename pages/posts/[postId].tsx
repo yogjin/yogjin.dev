@@ -1,4 +1,4 @@
-import { getPostData } from '../../lib/posts';
+import { getAllPostIds, getPostData } from '../../lib/posts';
 import { getStaticPropsParams, PostMetaData } from '../../interfaces/post';
 import { FC } from 'react';
 import Date from '../../components/date';
@@ -22,8 +22,10 @@ const Post: FC<PostProps> = ({ postId, contentHtml, title, date }) => {
 };
 
 export async function getStaticPaths() {
+  const paths = getAllPostIds();
+
   return {
-    paths: [{ params: { postId: 'first' } }],
+    paths,
     fallback: false,
   };
 }
