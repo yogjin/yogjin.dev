@@ -7,7 +7,7 @@ const Posts = ({
 }: InferGetStaticPropsType<typeof getStaticProps>) => {
   return (
     <>
-      <div className={`text-blue-500 text-6xl my-10 pb-6 border-b-4`}>
+      <div className={`text-blue-500 text-6xl mt-10 pb-6 border-b-4`}>
         Posts
       </div>
       <div className={'flex flex-col'}>
