@@ -44,6 +44,34 @@ export async function getPostData(postId: string) {
   return postMetadata;
 }
 
+// Use for posts page
+export function getAllPostsData() {
+  const postFiles = fs.readdirSync(postsDirectory);
+  const postFrontMatters: PostMetaData[] = postFiles.map((postFile) => {
+    const filePath = path.join(postsDirectory, postFile);
+    const file = fs.readFileSync(filePath, 'utf-8');
+
+    const matterResult = matter(file);
+    const frontMatter = {
+      postId: postFile.replace(/.mdx$/, ''),
+      title: matterResult.data.title,
+      date: matterResult.data.date,
+    };
+    return frontMatter;
+  });
+
+  const PostsData = postFrontMatters.sort(({ date: a }, { date: b }) => {
+    if (a > b) {
+      return -1;
+    } else if (a < b) {
+      return 1;
+    } else {
+      return 0;
+    }
+  });
+  return PostsData;
+}
+
 // Use for RecentPosts.tsx
 // Show recent 5 posts
 export function getRecentPostsData() {
