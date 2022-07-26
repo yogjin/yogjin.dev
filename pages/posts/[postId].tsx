@@ -9,7 +9,7 @@ const Post: FC<PostProps> = ({ postId, contentHtml, title, date }) => {
   return (
     <>
       <article
-        className={`flex flex-col prose lg:prose-xl prose dark:prose-invert prose-a:text-blue-600`}
+        className={`flex flex-col mt-10 prose lg:prose-xl prose dark:prose-invert prose-a:text-blue-600`}
       >
         <h1>{title}</h1>
         <div className={`mb-4`}>
