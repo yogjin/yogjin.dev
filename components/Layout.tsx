@@ -6,12 +6,12 @@ import Image from 'next/image';
 interface LayoutProps {}
 const Layout = ({ children }: PropsWithChildren<LayoutProps>) => {
   return (
-    <div className={`w-full flex flex-col items-center p-3`}>
+    <div className={`w-full flex flex-col items-center p-1`}>
       <Head>
         <title>yogjin.dev</title>
       </Head>
       <header
-        className={`w-full max-w-3xl flex justify-between items-center my-1`}
+        className={`w-full max-w-3xl flex justify-between items-center my-2`}
       >
         <Nav />
         <div className={`flex items-center`}>

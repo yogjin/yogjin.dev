@@ -1,6 +1,7 @@
 import type { NextPage } from 'next';
 import Head from 'next/head';
 import Image from 'next/image';
+import RecentPosts from '../components/RecentPosts';
 import styles from '../styles/Home.module.css';
 
 const Home: NextPage = () => {
@@ -16,14 +17,19 @@ const Home: NextPage = () => {
           objectFit="cover"
           className={`rounded-3xl`}
         />
-        <span
-          className={`absolute top-32 text-4xl font-semibold text-white mx-6`}
+        <div
+          className={`flex flex-col absolute left-2 top-2 bg-black bg-opacity-90 rounded-xl py-8 m-2`}
         >
-          Youngjin Park
-        </span>
-        <span className={`absolute top-44 text-xl font-normal text-white mx-6`}>
-          Frontend Developer who likes playing guitar
-        </span>
+          <span className={`text-4xl font-semibold text-white mx-6`}>
+            Youngjin Park
+          </span>
+          <span className={`text-xl font-normal text-white mx-6`}>
+            Frontend Developer who likes playing guitar
+          </span>
+        </div>
+      </div>
+      <div>
+        <RecentPosts />
       </div>
     </div>
   );
