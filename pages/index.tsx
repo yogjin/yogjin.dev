@@ -1,6 +1,7 @@
 import type { NextPage } from 'next';
 import Head from 'next/head';
 import Image from 'next/image';
+import RecentPosts from '../components/RecentPosts';
 import styles from '../styles/Home.module.css';
 
 const Home: NextPage = () => {
@@ -26,6 +27,9 @@ const Home: NextPage = () => {
             Frontend Developer who likes playing guitar
           </span>
         </div>
+      </div>
+      <div>
+        <RecentPosts />
       </div>
     </div>
   );
