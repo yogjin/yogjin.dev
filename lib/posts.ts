@@ -43,3 +43,22 @@ export async function getPostData(postId: string) {
   };
   return postMetadata;
 }
+
+// Use for RecentPosts.tsx
+export function getRecentPostsData() {
+  const postFiles = fs.readdirSync(postsDirectory);
+  const postFrontMatters: PostMetaData[] = postFiles.map((postFile) => {
+    const filePath = path.join(postsDirectory, postFile);
+    const file = fs.readFileSync(filePath, 'utf-8');
+
+    const matterResult = matter(file);
+    const frontMatter = {
+      postId: postFile.replace(/.mdx$/, ''),
+      title: matterResult.data.title,
+      date: matterResult.data.date,
+    };
+    return frontMatter;
+  });
+
+  return postFrontMatters;
+}

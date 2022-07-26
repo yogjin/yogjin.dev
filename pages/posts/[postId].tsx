@@ -15,7 +15,7 @@ const Post: FC<PostProps> = ({ postId, contentHtml, title, date }) => {
         <div className={`mb-4`}>
           <Date dateString={date} />
         </div>
-        <div dangerouslySetInnerHTML={{ __html: contentHtml }} />
+        <div dangerouslySetInnerHTML={{ __html: contentHtml! }} />
       </article>
     </>
   );

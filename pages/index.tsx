@@ -1,10 +1,13 @@
-import type { NextPage } from 'next';
+import type { InferGetStaticPropsType, NextPage } from 'next';
 import Head from 'next/head';
 import Image from 'next/image';
 import RecentPosts from '../components/RecentPosts';
+import { getRecentPostsData } from '../lib/posts';
 import styles from '../styles/Home.module.css';
 
-const Home: NextPage = () => {
+const Home = ({
+  postDatas,
+}: InferGetStaticPropsType<typeof getStaticProps>) => {
   return (
     <div>
       <div className={`relative`}>
@@ -29,10 +32,18 @@ const Home: NextPage = () => {
         </div>
       </div>
       <div>
-        <RecentPosts />
+        <RecentPosts postDatas={postDatas} />
       </div>
     </div>
   );
 };
+export function getStaticProps() {
+  const postDatas = getRecentPostsData();
 
+  return {
+    props: {
+      postDatas,
+    },
+  };
+}
 export default Home;
