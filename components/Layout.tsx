@@ -4,6 +4,7 @@ import { PropsWithChildren } from 'react';
 import Image from 'next/image';
 import useScrollDirection from '../hooks/useScrollDirection';
 import useScrollLocation from '../hooks/useScrollLocation';
+import Link from 'next/link';
 
 interface LayoutProps {}
 const Layout = ({ children }: PropsWithChildren<LayoutProps>) => {
@@ -16,8 +17,8 @@ const Layout = ({ children }: PropsWithChildren<LayoutProps>) => {
         <title>yogjin.dev</title>
       </Head>
       <header
-        className={`flex flex-col w-full justify-center items-center bg-white sticky top-0 h-[4.3rem] ${
-          scrollDirection === 'down' ? '-top-[4.3rem]' : 'top-0'
+        className={`flex flex-col w-full justify-center items-center bg-white sticky top-0 h-[3.5rem] ${
+          scrollDirection === 'down' ? '-top-[3.5rem]' : 'top-0'
         } ${
           scrollLocation !== 0 && 'drop-shadow-md'
         } transition-all duration-300`}
@@ -27,13 +28,13 @@ const Layout = ({ children }: PropsWithChildren<LayoutProps>) => {
         >
           <Nav />
           <div className={`flex items-center`}>
-            <span className={`mx-2 text-2xl font-black font-logo`}>
-              yogjin.dev
-            </span>
+            <Link href={'/'}>
+              <a className={`mx-2 text-xl font-black font-logo`}>yogjin.dev</a>
+            </Link>
           </div>
         </div>
       </header>
-      <main className={`w-full max-w-4xl`}>{children}</main>
+      <main className={`w-full max-w-3xl`}>{children}</main>
     </div>
   );
 };

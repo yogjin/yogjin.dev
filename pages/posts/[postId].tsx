@@ -8,11 +8,9 @@ interface PostProps extends PostMetaData {}
 const Post: FC<PostProps> = ({ postId, contentHtml, title, date }) => {
   return (
     <>
-      <article
-        className={`flex flex-col mt-10 prose lg:prose-xl prose prose-a:text-blue-600`}
-      >
+      <article className={`flex flex-col mt-10 prose prose-a:text-blue-600`}>
         <h1>{title}</h1>
-        <div className={`mb-4`}>
+        <div className={`mb-4 -mt-4`}>
           <Date dateString={date} />
         </div>
         <div dangerouslySetInnerHTML={{ __html: contentHtml! }} />

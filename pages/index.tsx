@@ -26,7 +26,7 @@ const Home = ({
           <span className={`text-4xl font-semibold text-white mx-6`}>
             Youngjin Park
           </span>
-          <span className={`text-xl font-normal text-white mx-6`}>
+          <span className={`text-base font-normal text-white mx-6`}>
             Frontend Developer who likes playing guitar
           </span>
         </div>
