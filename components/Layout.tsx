@@ -4,6 +4,7 @@ import { PropsWithChildren } from 'react';
 import Image from 'next/image';
 import useScrollDirection from '../hooks/useScrollDirection';
 import useScrollLocation from '../hooks/useScrollLocation';
+import Link from 'next/link';
 
 interface LayoutProps {}
 const Layout = ({ children }: PropsWithChildren<LayoutProps>) => {
@@ -27,9 +28,9 @@ const Layout = ({ children }: PropsWithChildren<LayoutProps>) => {
         >
           <Nav />
           <div className={`flex items-center`}>
-            <span className={`mx-2 text-xl font-black font-logo`}>
-              yogjin.dev
-            </span>
+            <Link href={'/'}>
+              <a className={`mx-2 text-xl font-black font-logo`}>yogjin.dev</a>
+            </Link>
           </div>
         </div>
       </header>
