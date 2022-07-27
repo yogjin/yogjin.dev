@@ -12,7 +12,7 @@
     background-color: white;
   }
 }
-@media (prefers-color-scheme: dark) {
+/* @media (prefers-color-scheme: dark) {
   html {
     color-scheme: dark;
   }
@@ -20,4 +20,4 @@
     color: white;
     background: #17171b;
   }
-}
+} */
