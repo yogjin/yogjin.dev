@@ -3,6 +3,7 @@ import path from 'path';
 import matter from 'gray-matter';
 import { remark } from 'remark';
 import remarkHtml from 'remark-html';
+import remarkPrism from 'remark-prism';
 import { PostMetaData } from '../interfaces/post';
 import { GetStaticPathsResult } from 'next';
 const postsDirectory = path.join(process.cwd(), 'posts');
@@ -31,7 +32,9 @@ export async function getPostData(postId: string) {
 
   // Use remark to convert markdown into HTML string
   const processedContent = await remark()
-    .use(remarkHtml)
+    // https://github.com/sergioramos/remark-prism/issues/265
+    .use(remarkHtml, { sanitize: false })
+    .use(remarkPrism)
     .process(matterResult.content);
 
   const contentHtml = processedContent.toString();

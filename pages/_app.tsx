@@ -1,6 +1,7 @@
 import '../styles/globals.css';
 import type { AppProps } from 'next/app';
 import Layout from '../components/Layout';
+import 'prismjs/themes/prism.min.css';
 
 function MyApp({ Component, pageProps }: AppProps) {
   return (
