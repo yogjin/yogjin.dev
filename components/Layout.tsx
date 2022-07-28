@@ -1,13 +1,16 @@
 import Nav from './Nav';
 import Head from 'next/head';
-import { PropsWithChildren } from 'react';
+import React, { PropsWithChildren } from 'react';
 import Image from 'next/image';
 import useScrollDirection from '../hooks/useScrollDirection';
 import useScrollLocation from '../hooks/useScrollLocation';
 import Link from 'next/link';
 
-interface LayoutProps {}
-const Layout = ({ children }: PropsWithChildren<LayoutProps>) => {
+interface LayoutProps {
+  children?: React.ReactNode;
+}
+
+const Layout: React.FC<LayoutProps> = ({ children }) => {
   const scrollDirection = useScrollDirection();
   const scrollLocation = useScrollLocation();
 
