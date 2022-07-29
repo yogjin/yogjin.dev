@@ -1,11 +1,15 @@
 import fs from 'fs';
 import path from 'path';
 import matter from 'gray-matter';
-import { remark } from 'remark';
-import remarkHtml from 'remark-html';
-import remarkPrism from 'remark-prism';
+import rehypePrism from 'rehype-prism';
+import rehypeSlug from 'rehype-slug';
+import markdown from 'remark-parse';
+import remark2rehype from 'remark-rehype';
+import html from 'rehype-stringify';
+import rehypeAutolinkHeadings from 'rehype-autolink-headings';
 import { PostMetaData } from '../interfaces/post';
 import { GetStaticPathsResult } from 'next';
+import { unified } from 'unified';
 const postsDirectory = path.join(process.cwd(), 'posts');
 
 // Use for getStaticPaths in [postId].tsx
@@ -31,12 +35,15 @@ export async function getPostData(postId: string) {
   const matterResult = matter(file);
 
   // Use remark to convert markdown into HTML string
-  const processedContent = await remark()
-    // https://github.com/sergioramos/remark-prism/issues/265
-    .use(remarkHtml, { sanitize: false })
-    .use(remarkPrism)
+  const processedContent = await unified()
+    .use(markdown)
+    .use(remark2rehype)
+    .use(html)
+    .use(rehypeSlug)
+    .use(rehypeAutolinkHeadings)
+    .use(rehypePrism)
     .process(matterResult.content);
-
+  console.log(processedContent);
   const contentHtml = processedContent.toString();
   const postMetadata = {
     postId,
