@@ -2,6 +2,7 @@ import { getAllPostIds, getPostData } from '../../lib/posts';
 import { getStaticPropsParams, PostMetaData } from '../../interfaces/post';
 import { FC } from 'react';
 import Date from '../../components/date';
+import TableOfContents from '../../components/TableOfContents';
 
 interface PostProps extends PostMetaData {}
 
@@ -15,6 +16,9 @@ const Post: FC<PostProps> = ({ postId, contentHtml, title, date }) => {
         </div>
         <div dangerouslySetInnerHTML={{ __html: contentHtml! }} />
       </article>
+      <div>
+        <TableOfContents />
+      </div>
     </>
   );
 };
