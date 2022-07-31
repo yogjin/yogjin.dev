@@ -5,6 +5,7 @@ import Image from 'next/image';
 import useScrollDirection from '../hooks/useScrollDirection';
 import useScrollLocation from '../hooks/useScrollLocation';
 import Link from 'next/link';
+import Footer from './Footer';
 
 interface LayoutProps {}
 const Layout = ({ children }: PropsWithChildren<LayoutProps>) => {
@@ -35,6 +36,7 @@ const Layout = ({ children }: PropsWithChildren<LayoutProps>) => {
         </div>
       </header>
       <main className={`w-full max-w-3xl`}>{children}</main>
+      <Footer />
     </div>
   );
 };
