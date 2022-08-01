@@ -1,11 +1,14 @@
-import { FC, useState } from 'react';
+import { FC, useEffect, useState } from 'react';
 import useHeadingsData, { HeadElement } from '../hooks/useHeadingsData';
+import useIntersectionObserver from '../hooks/useIntersectionObserver';
 
 interface HeadingsProps {
   headings: HeadElement[];
 }
 const Headings: FC<HeadingsProps> = ({ headings }) => {
   const [selected, setSelected] = useState<string>();
+  const intersectionObserver = useIntersectionObserver(setSelected);
+
   return (
     <ul>
       {headings.map((heading) => (
