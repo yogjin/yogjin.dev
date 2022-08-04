@@ -1,34 +1,40 @@
-This is a [Next.js](https://nextjs.org/) project bootstrapped with [`create-next-app`](https://github.com/vercel/next.js/tree/canary/packages/create-next-app).
+## `yogjin`의 개발 블로그입니다.
 
-## Getting Started
+<!-- ABOUT THE PROJECT -->
+## About The Project
+`Notion`, `Velog`, `Tistory`를 써보고 만족하지 못한 내가 직접 만들어보는 개발 블로그
 
-First, run the development server:
+### Built With
 
-```bash
-npm run dev
-# or
-yarn dev
-```
+[![Next][Next.js]][Next-url]
+[![Typescript][Typescript]][Typescript-url]
+[![TailwindCSS][TailwindCSS]][TailwindCSS-url]
 
-Open [http://localhost:3000](http://localhost:3000) with your browser to see the result.
+<!-- Feature -->
+## Feature
 
-You can start editing the page by modifying `pages/index.tsx`. The page auto-updates as you edit the file.
+- [x] `GNB` (Global Navigation Bar)
+    - [x] 스크롤을 내릴땐 숨기고 올릴땐 보이게
+- [x] `markdown`을 이용해 포스팅
+- [x] 포스팅 디자인
+    - [x] 전체적인 스타일과 `inline-code` 는 `tailwindCSS`의 `Typography` plugin 이용
+    - [x] `code-block` 은 `rehype-prism` 이용
+- [x] `TOC` Table Of Contents
 
-[API routes](https://nextjs.org/docs/api-routes/introduction) can be accessed on [http://localhost:3000/api/hello](http://localhost:3000/api/hello). This endpoint can be edited in `pages/api/hello.ts`.
+<!-- TODO -->
+## TODO
 
-The `pages/api` directory is mapped to `/api/*`. Files in this directory are treated as [API routes](https://nextjs.org/docs/api-routes/introduction) instead of React pages.
+- [ ] 포스팅 주제마다 다른 라우팅
+- [ ] `SEO` 추가
+- [ ] `lightmode` / `darkmode` 추가
+- [ ] 댓글 기능 추가
 
-## Learn More
 
-To learn more about Next.js, take a look at the following resources:
-
-- [Next.js Documentation](https://nextjs.org/docs) - learn about Next.js features and API.
-- [Learn Next.js](https://nextjs.org/learn) - an interactive Next.js tutorial.
-
-You can check out [the Next.js GitHub repository](https://github.com/vercel/next.js/) - your feedback and contributions are welcome!
-
-## Deploy on Vercel
-
-The easiest way to deploy your Next.js app is to use the [Vercel Platform](https://vercel.com/new?utm_medium=default-template&filter=next.js&utm_source=create-next-app&utm_campaign=create-next-app-readme) from the creators of Next.js.
-
-Check out our [Next.js deployment documentation](https://nextjs.org/docs/deployment) for more details.
+<!-- MARKDOWN LINKS & IMAGES -->
+<!-- https://www.markdownguide.org/basic-syntax/#reference-style-links -->
+[Next.js]: https://img.shields.io/badge/next.js-000000?style=for-the-badge&logo=nextdotjs&logoColor=white
+[Next-url]: https://nextjs.org/
+[Typescript]: https://img.shields.io/badge/TypeScript-3178C6?style=for-the-badge&logo=TypeScript&logoColor=white
+[Typescript-url]: https://www.typescriptlang.org/
+[TailwindCSS]: https://img.shields.io/badge/TailwindCSS-06B6D4?style=for-the-badge&logo=TailwindCSS&logoColor=white
+[TailwindCSS-url]: https://tailwindcss.com/
