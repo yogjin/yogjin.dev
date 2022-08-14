@@ -1,0 +1,126 @@
+---
+title: 'TypeScript에서 interface 이름을 정할 때 헝가리안 표기법을 사용하지 말아야 할 이유 + 대안'
+date: '2022-08-14'
+---
+
+많은 사람들이 `interface` 선언할 때 `I` 를 인터페이스명 맨 앞에 붙이곤 한다.
+
+```js
+interface ICar {}
+class Sedan implements ICar {}
+```
+
+하지만 위와 같이 작성하는건 권장하지 않는다.
+
+## 헝가리안 표기법?
+
+헝가리안 표기법이란 함수나 변수 이름앞에 타입을 적어주는 방식이다.
+
+I는 interface, C는 Class, … 등등
+
+이런 방식을 썼던 이유는 옛날 80년대 당시 부실한 IDE 때문에
+
+데이터 이름만 보고도 타입을 알 수 있기 위함이었다.
+
+**하지만**
+
+![타입_알려주는_vscode](/posts/타입_알려주는_vscode.jpg)
+
+요즘은 마우스 갖다 대면 타입을 바로 알 수 있으므로 쓸모가 없는 표기법이 된다.
+
+## 사용하면 안되는 이유
+
+1. **네이밍 일관성 문제**
+
+   다른 `class`나 변수 `data`에는 헝가리안 표기법을 쓰지 않는데
+
+   `interface` 에만 사용한다면 일관성을 해치게 된다.
+
+2. **TS `type` 특성과 헝가리안 표기법 목적의 불일치**
+
+   TS는 [구조적 타이핑](https://www.typescriptlang.org/ko/docs/handbook/typescript-in-5-minutes-func.html#%EA%B5%AC%EC%A1%B0%EC%A0%81%EC%9D%B8-%ED%83%80%EC%9D%B4%ED%95%91-structural-typing) 특성을 가지고 있기 때문에 명목적 타이핑 시각에서 만들어진 헝가리안 표기법의 목적과는 맞지 않다.
+
+   ### structural typing (구조적 타이핑)
+
+   ```js
+   interface Named {
+     name: string;
+   }
+
+   class Person {
+     name: string;
+   }
+
+   let p: Named;
+   // 성공, 구조적 타이핑이기 때문
+   p = new Person();
+   ```
+
+   C#이나 Java와 같은 명목적-타입 언어에서는 `Person` 클래스는
+
+   `Named` 인터페이스를 명시적인 구현체로 기술하지 않았기 때문에 해당 코드는 오류가 난다.
+
+   **따라서 헝가리안 표기법을 타입스크립트에 적용하는 건 말이 안된다.**
+
+   interface 네이밍 방식에 대해선
+
+   아직까지도 TS 개발자들의 논쟁이 계속되고 있긴 하지만,
+
+   어찌됐든 헝가리안 표기법은 TS 공식문서에서 사용하지 말라는 권고가 있기 때문에 쓰지말자.
+
+## 대안
+
+그럼 다음 코드를 어떻게 네이밍 하면 좋을까?
+
+```js
+interface ICar {}
+class Sedan implements ICar {}
+```
+
+`interface`에는 `I`를 빼고
+
+`class`를 명시할 때는 구체적으로 네이밍을 하자
+
+```js
+interface Car {}
+class Sedan implements Car {}
+```
+
+## 고민
+
+`interface` 를 `implements` 할 `class` 가 하나만 있을 때 네이밍을 어떻게 해야할 지 고민이었다.
+
+```js
+interface AuthService {
+  login: (providerName: string) => Promise<UserCredential>;
+  logout(): void;
+}
+
+class FireBaseAuthService implements AuthService {}
+class AnotherAuthService implements AuthService {} // 방식이 다른데.. 어떡하지
+```
+
+다음과 같이 auth에 관한 `interface` 를 정의할 때, `firebase` 말고 다른 auth 서비스를 적용한다면
+
+해당 서비스는 로그인 할 때 필요한 변수가 `firebase` `interface`와 다를 수 있기 때문에
+
+이 경우에는 `interface` ↔ `class` 서로 연관되는 것 끼리 하나씩 만들어 준 다음,
+
+```js
+interface FireBaseAuthService {
+  login: (providerName: string) => Promise<UserCredential>;
+  logout(): void;
+}
+interface AnotherAuthService {}
+
+class FireBaseAuthServiceImpl implements FireBaseAuthService {}
+class AnotherAuthServiceImpl implements AnotherAuthService {}
+```
+
+class명을 지을 때 `Impl`을 접미사로 붙여서 `FireBaseAuthServiceImpl` 로 지어주었다.
+
+사실 이 방법이 헝가리안 표기법과 비슷한 것 같아 썩 마음에 들지 않지만
+
+헝가리안과 TS의 궁합이 맞지않는 문제점인 **구조적 타이핑 특성에는 영향을 주지 않기 때문에**
+
+`Impl`을 붙이는 **방식을 채택했다.**

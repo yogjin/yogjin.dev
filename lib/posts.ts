@@ -43,7 +43,7 @@ export async function getPostData(postId: string) {
     .use(rehypeAutolinkHeadings)
     .use(rehypePrism)
     .process(matterResult.content);
-  console.log(processedContent);
+
   const contentHtml = processedContent.toString();
   const postMetadata = {
     postId,
