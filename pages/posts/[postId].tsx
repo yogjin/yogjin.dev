@@ -3,6 +3,7 @@ import { getStaticPropsParams, PostMetaData } from '../../interfaces/post';
 import { FC } from 'react';
 import Date from '../../components/date';
 import TableOfContents from '../../components/TableOfContents';
+import Comment from '../../components/Comment';
 
 interface PostProps extends PostMetaData {}
 
@@ -18,6 +19,9 @@ const Post: FC<PostProps> = ({ postId, contentHtml, title, date }) => {
       </article>
       <div>
         <TableOfContents />
+      </div>
+      <div className={`-ml-36`}>
+        <Comment />
       </div>
     </>
   );
