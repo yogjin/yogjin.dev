@@ -20,14 +20,14 @@
     - [x] 전체적인 스타일과 `inline-code` 는 `tailwindCSS`의 `Typography` plugin 이용
     - [x] `code-block` 은 `rehype-prism` 이용
 - [x] `TOC` Table Of Contents
-
+- [x] 댓글 기능 추가
+    - [x] [utterances](https://utteranc.es/) 이용
 <!-- TODO -->
 ## TODO
 
 - [ ] 포스팅 주제마다 다른 라우팅
 - [ ] `SEO` 추가
 - [ ] `lightmode` / `darkmode` 추가
-- [ ] 댓글 기능 추가
 
 
 <!-- MARKDOWN LINKS & IMAGES -->
