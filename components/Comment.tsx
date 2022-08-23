@@ -9,7 +9,7 @@ const Comment = () => {
     script.src = 'https://utteranc.es/client.js';
     script.async = true;
     script.setAttribute('repo', 'yogjin/yogjin.dev');
-    script.setAttribute('issue-term', 'title');
+    script.setAttribute('issue-term', 'pathname');
     script.setAttribute('theme', 'github-light');
     script.setAttribute('label', 'blog-comment');
 
