@@ -14,11 +14,7 @@ const Posts = ({
 }: InferGetStaticPropsType<typeof getStaticProps>) => {
   return (
     <>
-      <div
-        className={`text-blue-500 text-xl font-medium mt-10 pb-1 border-b-2`}
-      >
-        <CategoryNav />
-      </div>
+      <CategoryNav />
       {/* <div className={'flex flex-col'}>
         {postsData.map((postData) => (
           <Link href={`/posts/${postData.postId}`} key={postData.postId}>
