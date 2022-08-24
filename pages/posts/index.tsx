@@ -17,7 +17,7 @@ const Posts = ({
       <div
         className={`text-blue-500 text-xl font-medium mt-10 pb-1 border-b-2`}
       >
-        <CategoryNav postsCategory={postsCategory} />
+        <CategoryNav />
       </div>
       {/* <div className={'flex flex-col'}>
         {postsData.map((postData) => (
