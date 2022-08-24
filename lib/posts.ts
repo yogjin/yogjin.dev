@@ -56,7 +56,10 @@ export async function getPostData(postId: string) {
 
 // Use for posts page
 export function getAllPostsData() {
-  const postFiles = fs.readdirSync(postsDirectory);
+  const postFiles = fs
+    .readdirSync(postsDirectory, { withFileTypes: true })
+    .filter((dirent) => !dirent.isDirectory())
+    .map((file) => file.name);
   const postFrontMatters: PostMetaData[] = postFiles.map((postFile) => {
     const filePath = path.join(postsDirectory, postFile);
     const file = fs.readFileSync(filePath, 'utf-8');
@@ -85,7 +88,10 @@ export function getAllPostsData() {
 // Use for RecentPosts.tsx
 // Show recent 5 posts
 export function getRecentPostsData() {
-  const postFiles = fs.readdirSync(postsDirectory);
+  const postFiles = fs
+    .readdirSync(postsDirectory, { withFileTypes: true })
+    .filter((dirent) => !dirent.isDirectory())
+    .map((file) => file.name);
   const postFrontMatters: PostMetaData[] = postFiles.map((postFile) => {
     const filePath = path.join(postsDirectory, postFile);
     const file = fs.readFileSync(filePath, 'utf-8');
@@ -111,4 +117,18 @@ export function getRecentPostsData() {
     })
     .slice(0, 5);
   return RecentPostsDataFive;
+}
+
+/**
+ * post의 카테고리(주제)
+ *
+ * 'src/posts/' 에 있는 디렉토리이름들을 리턴한다.
+ */
+export function getPostsCategory() {
+  const categories = fs
+    .readdirSync(postsDirectory, { withFileTypes: true })
+    .filter((dirent) => dirent.isDirectory())
+    .map((directory) => directory.name);
+
+  return categories;
 }
