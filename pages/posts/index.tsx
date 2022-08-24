@@ -1,19 +1,25 @@
 import type { InferGetStaticPropsType, NextPage } from 'next';
 import Link from 'next/link';
-import Date from '../components/date';
-import { getAllPostIds, getAllPostsData } from '../lib/posts';
+import CategoryNav from '../../components/CategoryNav';
+import Date from '../../components/date';
+import {
+  getAllPostIds,
+  getAllPostsData,
+  getPostsCategory,
+} from '../../lib/posts';
 
 const Posts = ({
   postsData,
+  postsCategory,
 }: InferGetStaticPropsType<typeof getStaticProps>) => {
   return (
     <>
       <div
-        className={`text-blue-500 text-5xl font-medium mt-10 pb-6 border-b-4`}
+        className={`text-blue-500 text-xl font-medium mt-10 pb-1 border-b-2`}
       >
-        Posts
+        <CategoryNav postsCategory={postsCategory} />
       </div>
-      <div className={'flex flex-col'}>
+      {/* <div className={'flex flex-col'}>
         {postsData.map((postData) => (
           <Link href={`/posts/${postData.postId}`} key={postData.postId}>
             <a className={`mt-6`}>
@@ -22,17 +28,18 @@ const Posts = ({
             </a>
           </Link>
         ))}
-      </div>
+      </div> */}
     </>
   );
 };
 
 export function getStaticProps() {
   const postsData = getAllPostsData();
-
+  const postsCategory = getPostsCategory();
   return {
     props: {
       postsData,
+      postsCategory,
     },
   };
 }
