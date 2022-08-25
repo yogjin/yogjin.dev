@@ -6,6 +6,7 @@ export interface PostMetaData {
   title: string;
   category: string;
   date: string;
+  thumbnail: string;
 }
 
 export interface getStaticPropsParams {

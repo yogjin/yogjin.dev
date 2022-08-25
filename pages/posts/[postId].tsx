@@ -42,10 +42,16 @@ export async function getStaticPaths() {
   };
 }
 export async function getStaticProps({ params }: getStaticPropsParams) {
-  const { postId, contentHtml, title, category, date }: PostMetaData =
-    await getPostData(params.postId);
+  const {
+    postId,
+    contentHtml,
+    title,
+    category,
+    date,
+    thumbnail,
+  }: PostMetaData = await getPostData(params.postId);
   return {
-    props: { postId, contentHtml, title, category, date },
+    props: { postId, contentHtml, title, category, date, thumbnail },
   };
 }
 
