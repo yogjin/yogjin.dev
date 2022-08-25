@@ -7,7 +7,13 @@ import Comment from '../../components/Comment';
 
 interface PostProps extends PostMetaData {}
 
-const Post: FC<PostProps> = ({ postId, contentHtml, title, date }) => {
+const Post: FC<PostProps> = ({
+  postId,
+  contentHtml,
+  title,
+  category,
+  date,
+}) => {
   return (
     <>
       <article className={`flex flex-col mt-10 prose prose-a:text-blue-600`}>
@@ -36,11 +42,10 @@ export async function getStaticPaths() {
   };
 }
 export async function getStaticProps({ params }: getStaticPropsParams) {
-  const { postId, contentHtml, title, date }: PostMetaData = await getPostData(
-    params.postId
-  );
+  const { postId, contentHtml, title, category, date }: PostMetaData =
+    await getPostData(params.postId);
   return {
-    props: { postId, contentHtml, title, date },
+    props: { postId, contentHtml, title, category, date },
   };
 }
 
