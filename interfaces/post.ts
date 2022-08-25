@@ -4,6 +4,7 @@ export interface PostMetaData {
   postId: string;
   contentHtml?: string;
   title: string;
+  category: string;
   date: string;
 }
 

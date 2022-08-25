@@ -49,6 +49,7 @@ export async function getPostData(postId: string) {
     postId,
     contentHtml,
     title: matterResult.data.title,
+    category: matterResult.data.category,
     date: matterResult.data.date,
   };
   return postMetadata;
@@ -68,6 +69,7 @@ export function getAllPostsData() {
     const frontMatter = {
       postId: postFile.replace(/.mdx$/, ''),
       title: matterResult.data.title,
+      category: matterResult.data.category,
       date: matterResult.data.date,
     };
     return frontMatter;
@@ -100,6 +102,7 @@ export function getRecentPostsData() {
     const frontMatter = {
       postId: postFile.replace(/.mdx$/, ''),
       title: matterResult.data.title,
+      category: matterResult.data.category,
       date: matterResult.data.date,
     };
     return frontMatter;
