@@ -51,6 +51,7 @@ export async function getPostData(postId: string) {
     title: matterResult.data.title,
     category: matterResult.data.category,
     date: matterResult.data.date,
+    thumbnail: matterResult.data.thumbnail,
   };
   return postMetadata;
 }
@@ -71,6 +72,7 @@ export function getAllPostsData() {
       title: matterResult.data.title,
       category: matterResult.data.category,
       date: matterResult.data.date,
+      thumbnail: matterResult.data.thumbnail,
     };
     return frontMatter;
   });
@@ -104,6 +106,7 @@ export function getRecentPostsData() {
       title: matterResult.data.title,
       category: matterResult.data.category,
       date: matterResult.data.date,
+      thumbnail: matterResult.data.thumbnail,
     };
     return frontMatter;
   });
