@@ -7,7 +7,7 @@ interface Props {
   selectedCategory: string;
 }
 
-const Posts = ({ postsData, selectedCategory }: Props) => {
+const PostCards = ({ postsData, selectedCategory }: Props) => {
   return (
     <div className={'grid grid-cols-2 gap-4 pt-2'}>
       {postsData.map((postData) => {
@@ -22,4 +22,4 @@ const Posts = ({ postsData, selectedCategory }: Props) => {
   );
 };
 
-export default Posts;
+export default PostCards;
