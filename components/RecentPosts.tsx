@@ -9,7 +9,7 @@ interface RecentPostsProps {
 const RecentPosts: FC<RecentPostsProps> = ({ postDatas }) => {
   return (
     <section>
-      <h1 className={`text-4xl font-semibold mt-12 mb-4`}>최근 게시물</h1>
+      <h1 className={`text-4xl font-semibold mt-12 mb-4 `}>최근 게시물</h1>
       <div className={'flex flex-col'}>
         {postDatas.map((postData) => (
           <Link href={`/posts/${postData.postId}`} key={postData.postId}>
