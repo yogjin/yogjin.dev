@@ -1,7 +1,7 @@
 import type { InferGetStaticPropsType, NextPage } from 'next';
 import { useState } from 'react';
 import CategoryNav from '../../components/CategoryNav';
-import Posts from '../../components/Posts';
+import PostCards from '../../components/Posts';
 import {
   getAllPostIds,
   getAllPostsData,
@@ -23,7 +23,7 @@ const Index = ({
         selectedCategory={selectedCategory}
         onClickCategory={handleClickCategory}
       />
-      <Posts postsData={postsData} selectedCategory={selectedCategory} />
+      <PostCards postsData={postsData} selectedCategory={selectedCategory} />
     </>
   );
 };
