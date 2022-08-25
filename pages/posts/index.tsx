@@ -16,12 +16,14 @@ const Posts = ({
   const [selectedCategory, setSelectedCategory] = useState<string>('All');
 
   function handleClickCategory(clicked: string) {
-    console.log(clicked);
     setSelectedCategory(clicked);
   }
   return (
     <>
-      <CategoryNav onClickCategory={handleClickCategory} />
+      <CategoryNav
+        selectedCategory={selectedCategory}
+        onClickCategory={handleClickCategory}
+      />
       <div className={'flex flex-col'}>
         {postsData.map(
           (postData) =>
