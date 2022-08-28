@@ -31,5 +31,5 @@ export function generateSitemap(allPosts: PostMetaData[]) {
       </urlset>
     </xml>`;
 
-  fs.writeFileSync('sitemap.xml', sitemap, 'utf-8');
+  fs.writeFileSync('public/sitemap.xml', sitemap, 'utf-8');
 }
