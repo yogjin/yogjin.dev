@@ -1,0 +1,183 @@
+---
+title: '6. 타입 변환과 단축 평가'
+category: 'jsdeepdive'
+date: '2022-08-27'
+thumbnail: '/thumbnails/js-타입변환과단축평가.png'
+---
+
+## 1. 타입 변환이란?
+
+값의 타입을 다른 타입으로 변환시키는 것을 말한다.
+
+- **명시적 타입변환**`explicit coercion`: 개발자가 의도적으로 값의 타입을 변환시키는 것
+
+```js
+let x = 10;
+let strX = x.toString();
+console.log(typeof strX, strX); // string 10
+
+// x 자체의 값이 변경되지는 않는다.
+console.log(typeof x, x); // number 10
+```
+
+- **암묵적 타입변환**`implicit coercion` : 표현식 평가중에 자바스크립트 엔진이 타입을 자동으로 변환시키는 것
+
+```js
+let x = 10;
+let strX = x + '';
+console.log(typeof strX, strX); // string 10
+
+// x 자체의 값이 변경되지는 않는다.
+console.log(typeof x, x); // number 10
+```
+
+두 타입변환 전부 `x` 자체의 값이 변경되지는 않는다.
+
+`primitive` 타입은 `immutable`한 값이기 때문이다.
+
+따라서 타입변환 시 새로운 `primitive` 값을 생성한다.
+
+## 2. 암묵적 타입변환
+
+**암묵적 타입변환**`implicit coercion` : 표현식 평가중에 자바스크립트 엔진이 타입을 자동으로 변환시키는 것
+
+### string 타입으로 변환
+
+```js
+1 + '2'; // '12'
+0 +
+  ''(
+    // '0'
+    {}
+  ) +
+  ''[(10, 20)] + // '[Object Object]'
+  ''; // '10,20'
+```
+
+### number 타입으로 변환
+
+```js
+1 - '1'; // 0
+1 * '10'; // 10
+'1' >
+  0 + // true
+    // string 타입
+    '' + // 0
+    '0' + // 0
+    // boolean 타입
+    true + // 1
+    false; // 0
+```
+
+### boolean 타입으로 변환
+
+자바스크립트 엔진은 `boolean` 타입이 아닌 값을 `Truthy(true로 평가)`또는 `Falsy(false로 평가)`로 구분한다.
+
+- `Falsy 값`
+  - false
+  - undefined
+  - null
+  - 0, -0
+  - NaN
+  - ‘’ (빈 문자열)
+
+`Falsy` 값 이 외의 값들은 전부 `Truthy` 값이다.
+
+## 3. 명시적 타입 변환
+
+- **명시적 타입변환**`explicit coercion`: 개발자가 의도적으로 값의 타입을 변환시키는 것
+  - 표준 빌트인 생성자 함수를 new 연산자 없이 호출 (`String`, `Number`, `Boolean`)
+  - 빌트인 메서드 사용
+  - 암묵적 타입변환을 이용
+
+### 문자열 타입으로 변환
+
+1. `String` 생성자 함수 호출
+2. `Object.prototype.toString` 메서드 사용
+3. 문자열 연결 연산자 `+` 이용
+
+```js
+// 1. String 생성자 함수 호출
+// number 타입 -> string 타입
+String(1); // '1'
+String(NaN); // 'NaN'
+
+// 2. Object.prototype.toString 메서드 사용
+(1).toString(); // '1'
+true.toString(); // 'true'
+
+// 3. 문자열 연결 연산자 + 이용
+true + ''; // 'true'
+```
+
+### 숫자 타입으로 변환
+
+1. `Number` 생성자 함수 호출
+2. `parseInt`, `parseFloat` 함수 사용 (`string` → `number`만 변환 가능)
+3. 단항 산술 연산자 `+` 이용
+4. 산술 연산자 `*` 이용
+
+```js
+// 1. Number 생성자 함수 호출
+Number('0'); // 0
+
+// 2. parseInt, parseFloat 함수 사용 (string → number만 변환 가능)
+parseInt('0123'); // 123
+
+// 3. 단항 산술 연산자 + 이용
++'-123'; // -123
+
+// 4. 산술 연산자 * 이용
+'123' * 1; // 123
+```
+
+### 불리언 타입으로 변환
+
+1. Boolean 생성자 함수 호출
+2. 부정 논리 연산자 `!` 두 번 사용 `!!`
+
+## 4. 단축 평가
+
+### 논리 연산자를 사용한 단축 평가
+
+논리합 `||`, 논리곱 `&&` 의 평가 결과는 `boolean` 값이 아닐 수도 있다.
+
+**이 두 연산자는 언제나 2개의 피연산자 중 어느 한쪽으로 평가된다.**
+
+true || anything ⇒ true
+
+false || anything ⇒ anything
+
+true && anything ⇒ anything
+
+false && anything ⇒ false
+
+보통 단축평가는 `React` 에서 조건에 맞게 렌더링 할 때 사용한다.
+
+이 외의 경우엔 사용을 권장하지 않는다. (if문 대신 쓰지말라는 소리)
+
+```js
+let array = [];
+
+const result = array.length > 0 && <p>array is not empty</p>;
+```
+
+## 5. 옵셔널 체이닝 연산자 `?.`
+
+ES11에서 도입된 옵셔널 체이닝 연산자 `?.` 는
+
+좌항의 피연산자가 `null` 또는 `undefined` 인 경우 `undefined`를 리턴하고, 그렇지 않으면 우항의 `property` 참조를 이어간다.
+
+```js
+const nirvana = null;
+
+// nirvana가 null 이므로 age에는 undefined가 저장된다.
+const age = nirvana?.vocal.age;
+console.log(age);
+```
+
+## 6. null 병합 연산자 `??`
+
+ES11에서 도입된 `null` 병합 연산자 `??` 는
+
+좌항의 피연산자가 `null` 또는 `undefined`인 경우 우항의 피연산자를 리턴하고, 그렇지 않으면 좌항의 피연산자를 리턴한다.
