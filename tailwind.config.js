@@ -29,6 +29,15 @@ module.exports = {
               content: '""',
               paddingRight: '0.1em',
             },
+            img: {
+              marginBottom: '0.2em',
+            },
+            'img + em': {
+              display: 'block',
+              textAlign: 'center',
+              fontSize: '0.9rem',
+              marginBottom: '1em',
+            },
           },
         },
       },
