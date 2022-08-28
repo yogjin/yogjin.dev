@@ -7,6 +7,7 @@ import {
   getAllPostsData,
   getPostsCategory,
 } from '../../lib/posts';
+import { generateSitemap } from '../../lib/sitemap';
 
 const Index = ({
   postsData,
@@ -31,6 +32,9 @@ const Index = ({
 export function getStaticProps() {
   const postsData = getAllPostsData();
   const postsCategory = getPostsCategory();
+
+  generateSitemap(postsData);
+
   return {
     props: {
       postsData,
