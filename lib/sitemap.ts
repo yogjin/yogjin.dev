@@ -1,8 +1,13 @@
 import { PostMetaData } from '../interfaces/post';
 import fs from 'fs';
+import prettier from 'prettier';
 
 const BLOG_DOMAIN = 'https://yogjin-dev.vercel.app';
 const TODAY = new Date().toISOString();
+
+const formatted = (sitemap: string) =>
+  prettier.format(sitemap, { parser: 'html' });
+
 /**
  * 모든 post의 정보를 담고있는 sitemap.xml을 동적으로 생성
  * @param allPosts
@@ -31,5 +36,7 @@ export function generateSitemap(allPosts: PostMetaData[]) {
       </urlset>
     </xml>`;
 
-  fs.writeFileSync('public/sitemap.xml', sitemap, 'utf-8');
+  const formattedSitemap = formatted(sitemap);
+
+  fs.writeFileSync('public/sitemap.xml', formattedSitemap, 'utf-8');
 }
