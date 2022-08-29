@@ -37,5 +37,5 @@ export function generateSitemap(allPosts: PostMetaData[]) {
 
   const formattedSitemap = formatted(sitemap);
 
-  fs.writeFileSync('public/sitemap.xml', formattedSitemap, 'utf-8');
+  fs.writeFileSync('public/sitemap.xml', formattedSitemap, 'utf8');
 }
