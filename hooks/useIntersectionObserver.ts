@@ -21,15 +21,17 @@ function useIntersectionObserver(
     const callback: IntersectionObserverCallback = (
       headings: IntersectionObserverEntry[]
     ) => {
-      if (headings.length === 1)
-        if (scrollDirection === 'down' && !headings[0].isIntersecting) {
-          setSelected(headings[0].target.id);
-        } else if (scrollDirection === 'up' && headings[0].isIntersecting) {
-          const targetIndex = headingsAll.indexOf(headings[0].target) - 1;
-          if (targetIndex >= 0) {
-            setSelected(headingsAll[targetIndex].id);
-          }
+      if (headings.length <= 0 || headings.length > 2) {
+        return;
+      }
+      if (scrollDirection === 'down' && !headings[0].isIntersecting) {
+        setSelected(headings[0].target.id);
+      } else if (scrollDirection === 'up' && headings[0].isIntersecting) {
+        const targetIndex = headingsAll.indexOf(headings[0].target) - 1;
+        if (targetIndex >= 0) {
+          setSelected(headingsAll[targetIndex].id);
         }
+      }
     };
     let observer = new IntersectionObserver(callback, options);
 
