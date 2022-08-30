@@ -1,27 +1,39 @@
-import { Dispatch, SetStateAction, useEffect, useRef } from 'react';
+import { Dispatch, SetStateAction, useEffect } from 'react';
+import useScrollDirection from './useScrollDirection';
 
 type headingElements = {
   [key: string]: IntersectionObserverEntry;
 };
 let options = {
   root: null, // 브라우저 뷰포트
-  rootMargin: '0px 0px -90% 0px',
+  rootMargin: '0px 0px 0px 0px',
   threshold: 1.0,
 };
 
 function useIntersectionObserver(
   setSelected: Dispatch<SetStateAction<string | undefined>>
 ) {
+  const scrollDirection = useScrollDirection();
+
   useEffect(() => {
-    const callback = (headings: IntersectionObserverEntry[]) => {
-      headings = headings.filter((heading) => heading.isIntersecting);
-      if (headings.length) {
-        setSelected(headings[0].target.id);
-      }
+    const headingsAll = Array.from(document.querySelectorAll('h2, h3'));
+
+    const callback: IntersectionObserverCallback = (
+      headings: IntersectionObserverEntry[]
+    ) => {
+      if (headings.length === 1)
+        if (scrollDirection === 'down' && !headings[0].isIntersecting) {
+          setSelected(headings[0].target.id);
+        } else if (scrollDirection === 'up' && headings[0].isIntersecting) {
+          const targetIndex = headingsAll.indexOf(headings[0].target) - 1;
+          if (targetIndex >= 0) {
+            setSelected(headingsAll[targetIndex].id);
+          }
+        }
     };
     let observer = new IntersectionObserver(callback, options);
-    let headings = document.querySelectorAll('h2, h3');
-    headings.forEach((heading) => {
+
+    headingsAll.forEach((heading) => {
       observer.observe(heading);
     });
     return () => {
