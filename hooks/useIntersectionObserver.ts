@@ -27,10 +27,10 @@ function useIntersectionObserver(
       if (scrollDirection === 'down' && !headings[0].isIntersecting) {
         setSelected(headings[0].target.id);
       } else if (scrollDirection === 'up' && headings[0].isIntersecting) {
-        const targetIndex = headingsAll.indexOf(headings[0].target) - 1;
-        if (targetIndex >= 0) {
-          setSelected(headingsAll[targetIndex].id);
-        }
+        let targetIndex = headingsAll.indexOf(headings[0].target) - 1;
+        targetIndex < 0
+          ? setSelected('')
+          : setSelected(headingsAll[targetIndex].id);
       }
     };
     let observer = new IntersectionObserver(callback, options);
