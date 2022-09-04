@@ -10,7 +10,7 @@ const Headings: FC<HeadingsProps> = ({ headings }) => {
   const intersectionObserver = useIntersectionObserver(setSelected);
 
   return (
-    <ul>
+    <ul className="invisible xl:visible">
       {headings.map((heading) => (
         <li key={heading.id}>
           <a
@@ -55,7 +55,7 @@ const TableOfContents = () => {
 
   return (
     <nav
-      className={`fixed top-44 right-44 border-l-2 pl-4 w-44`}
+      className={`invisible xl:visible fixed top-44 right-44 border-l-2 pl-4 w-44`}
       aria-label="Table of contents"
     >
       <Headings headings={nestedHeadings} />
