@@ -1,0 +1,165 @@
+---
+title: 'Table Of Contents 삽질기'
+category: 'blog'
+date: '2022-08-31'
+thumbnail: '/thumbnails/blog-table-of-contents.png'
+---
+
+> **블로그 개발기** 는 지금 보고계시는 블로그의 개발 과정입니다. 삽질을 하며
+> 부딪혔던 이슈와 해결해 나가는 과정, 그리고 느낀점을 고스란히 담았습니다 😁
+
+## 1. TOC란?
+
+`Table Of Contents` 의 약자로, 컨텐츠 목록으로 해석할 수 있다.
+
+보통 포스팅에서 `heading` 태그를 목록으로 구성한다.
+
+![블로그_TOC](/posts/devlog-table-of-contents/블로그_TOC.png)_이 블로그의 `TOC`_
+
+## 2. 일단 구현해보자
+
+[블로그 코드](https://github.com/yogjin/yogjin.dev)
+
+### 구현 방법
+
+구현에 사용한 custom hook 이다.
+
+- `useHeadingsData`
+  - document.querySelectorAll('h2, h3') 이용
+- `useIntersectionObserver`
+  - Intersection Observer API 이용
+
+1. `useHeadingsData`로 현재 포스팅의 `h2`, `h3` 태그를 가져와서 UI를 만든다.
+2. `useIntersectionObserver` 내부에서 viewport 와 `h2`, `h3` 태그들이 상호작용 할 때 작동할 로직을 정의한다.
+
+### 문제점
+
+![개선 전1](/posts/devlog-table-of-contents/개선전1.gif)_목록을 건너 뛰어 버리는 모습_
+
+문제가 되는 것 같은 부분의 코드를 바꾸어봤지만
+
+![개선 전2](/posts/devlog-table-of-contents/개선전2.gif)_잘 되는 듯 보이나 올라갈 때 또 건너 뛰어버리는 모습..._
+
+생각을 정리하지 않은 수정은 옳지 않다.
+
+나은 개선을 위해 제대로 공부한 후 구현해보자.
+
+## 3. 개선 과정
+
+### Intersection Observer API 공부
+
+[Intersection Observer API 정리글 by heropy](https://heropy.blog/2019/10/27/intersection-observer/)
+
+주요 코드
+
+```js
+// 포스팅의 h2, h3 태그 가져오기
+const headingAll = Array.from(document.querySelectorAll('h2, h3'));
+
+// 관찰할 대상이 등록(observe)되거나 등록한 heading이 viewport에 들어가고 나갈 때나 호출
+// headings에는 callback이 호출될 때, viewport에 들어오거나 나간 heading이 들어있다.
+// heading이 위아래로 viewport와 딱 맞게 위치한 경우 들어오고 나가는 heading 각각 하나씩, 총 2개가 들어있을 수 있다.
+const callback = (headings: IntersectionObserverEntry[]) => { ... }
+
+// observer 인스턴스 생성
+const observer = new IntersectionObserver(callback, options);
+
+// 관찰할 heading 등록
+headingAll.forEach(
+  heading => observer.observe(heading)
+);
+```
+
+### 마우스 업다운 고려
+
+![업다운 예제](/posts/devlog-table-of-contents/업다운예제.gif)_스크롤에 따라 TOC에서 활성화되는 contents가 바뀐다_
+독자가 **스크롤을 내릴 때는 글을 흐름대로 읽어나가고 있다는 의미**이지만,
+글의 흐름과 반대로 **스크롤을 올린다는 것은 이전의 콘텐츠를 읽고 싶다는 의미**라고 생각했다.
+
+구현을 위해 `hook`을 추가했다.
+
+- `useScrollDirection`
+  - window.pageYOffset 이용
+  - 스크롤을 올리고 있는지 내리고 있는지 여부를 반환
+
+```js
+// 스크롤 방향 받기
+const scrollDirection = useScrollDirection();
+
+const callback: IntersectionObserverCallback = (
+  headings: IntersectionObserverEntry[]
+) => {
+  // TOC의 contents를 변경할 때 headings 내부 heading의 개수는 0, 1, 2 이어야한다.
+  if (headings.length <= 0 || headings.length > 2) {
+    return;
+  }
+  if (scrollDirection === 'down' && !headings[0].isIntersecting) {
+    // 스크롤을 내리는 중에 heading이 viewport에서 나간 경우
+    // 해당 heading을 TOC의 contents로 설정
+    setSelected(headings[0].target.id);
+  } else if (scrollDirection === 'up' && headings[0].isIntersecting) {
+    // 스크롤을 올리는 중에 heading이 viewport에 들어온 경우
+    // TOC의 contents를 해당 heading이전의 heading으로 설정
+    let targetIndex = headingsAll.indexOf(headings[0].target) - 1;
+
+    // 맨 위 heading의 경우 TOC의 활성화된 contents 없음
+    targetIndex < 0
+      ? setSelected('')
+      : setSelected(headingsAll[targetIndex].id);
+  }
+};
+```
+
+### 사용자 시야에 맞게 viewport 수정
+
+보통 독자는 `heading` 이 화면의 맨 위가 아닌 화면의 중간쯤에 왔을때 이미 글을 읽고 있다. (주변 사람들에게 물어봄)
+
+이를 반영하기 위해 `viewport` 를 수정해보았다.
+
+```js
+let options = {
+  root: null, // 브라우저 뷰포트
+  rootMargin: '-50% 0px 0px 0px', // top, right, bottom, left
+  threshold: 1.0,
+};
+```
+
+![뷰포트수정1](/posts/devlog-table-of-contents/뷰포트수정1.gif)_중간을 지나면 Contents가 바뀐다_
+
+하지만 문제가 있었는데, 독자가 마우스로 `TOC`를 직접 클릭하는 경우 `heading`이 `viewport`를 지나지 못해 변경이 안되었다.
+
+![뷰포트수정2](/posts/devlog-table-of-contents/뷰포트수정2.gif)_viewport와 상호작용하지 못하는 `문제점` heading_
+
+그래서 `<a/>`를 클릭했을 때 해당 element을 중간으로 오도록 커스텀 해보고 싶었지만 해결하지 못했다. (기존 동작은 맨 위로 위치시킨다)
+
+아쉽지만 viewport는 default (`0px 0px 0px 0px`)로 설정했다. (혹시 아시면 알려주세요..!)
+
+### 반응형 쿼리
+
+구현을 위해 `개발자도구`를 열때 발견한 문제점이다.
+
+브라우저가 좁아졌을 때 `position:fixed`인 `TOC` 가 포스팅과 겹쳐 중복되어 보이고 있었다.
+
+또한 좌우로 화면 분할을 해서 포스팅을 보는 독자들도 있을 것이기 때문에 `Media Query`를 적용할 필요가 있었다.
+
+이 블로그는 `tailwindcss`를 이용해 스타일링을 하고있기 때문에 아래와 같이 간단히 적용해보았다.
+
+```js
+<TOC className="invisible xl:visible"/>
+
+// xl:visible의 내부 구현
+@media (min-width: 1280px) {
+  .xl\:visible {
+    visibility: visible;
+  }
+}
+```
+
+![반응형개선전1](/posts/devlog-table-of-contents/반응형개선전1.gif)_좀 더 빨리 사라져줄래..?_
+
+근데 빨리빨리 안사라지고 늦게 반응하는 문제가 있다.
+찾아보니 `useMediaQuery`라는 것을 사용하는 것 같은데..
+
+(업데이트 예정)
+
+[useMediaQuery 참고할 자료](https://velog.io/@st2702/%EB%B0%98%EC%9D%91%ED%98%95-%EC%9B%B9-Media-Query)

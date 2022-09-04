@@ -11,4 +11,5 @@ export const categoryNavlinks: {
   { category: 'All', title: 'All', link: '/posts' },
   { category: 'jsdeepdive', title: 'jsdeepdive', link: '/posts/jsdeepdive' },
   { category: 'retrospect', title: '회고', link: '/posts/retrospect' },
+  { category: 'blog', title: '블로그 개발기', link: '/posts/blog' },
 ];
