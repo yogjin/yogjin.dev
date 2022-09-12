@@ -26,7 +26,7 @@ const Post: FC<PostProps> = ({
       <div className={`invisible xl:visible`}>
         <TableOfContents />
       </div>
-      <div className={`-ml-36`}>
+      <div className={`xl:max-w-[90%]`}>
         <Comment />
       </div>
     </>
