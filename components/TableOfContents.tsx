@@ -10,12 +10,12 @@ const Headings: FC<HeadingsProps> = ({ headings }) => {
   const intersectionObserver = useIntersectionObserver(setSelected);
 
   return (
-    <ul className="invisible xl:visible">
+    <ul>
       {headings.map((heading) => (
         <li key={heading.id}>
           <a
             href={`#${heading.id}`}
-            className={`text-[#ACACAC] hover:text-black transition-all duration-300 inline-block text-sm ${
+            className={`text-[#ACACAC] hover:text-black inline-block text-sm ${
               selected === heading.id && `text-black scale-105 -translate-x-0.5`
             }`}
             onClick={() => {
@@ -30,7 +30,7 @@ const Headings: FC<HeadingsProps> = ({ headings }) => {
                 <li key={child.id}>
                   <a
                     href={`#${child.id}`}
-                    className={`ml-4 text-[#ACACAC] hover:text-black transition-all duration-300 inline-block text-sm ${
+                    className={`ml-4 text-[#ACACAC] hover:text-black inline-block text-sm ${
                       selected === child.id &&
                       `text-black scale-105 -translate-x-0.5`
                     }`}
@@ -55,7 +55,7 @@ const TableOfContents = () => {
 
   return (
     <nav
-      className={`invisible xl:visible fixed top-44 right-44 border-l-2 pl-4 w-44`}
+      className={`fixed top-44 right-44 border-l-2 pl-4 w-44`}
       aria-label="Table of contents"
     >
       <Headings headings={nestedHeadings} />

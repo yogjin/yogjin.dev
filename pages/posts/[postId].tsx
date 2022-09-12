@@ -23,7 +23,7 @@ const Post: FC<PostProps> = ({
         </div>
         <div dangerouslySetInnerHTML={{ __html: contentHtml! }} />
       </article>
-      <div>
+      <div className={`invisible xl:visible`}>
         <TableOfContents />
       </div>
       <div className={`-ml-36`}>
