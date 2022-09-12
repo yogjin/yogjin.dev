@@ -38,7 +38,7 @@ const Layout: React.FC<LayoutProps> = ({ children }) => {
           </div>
         </div>
       </header>
-      <main className={`w-full max-w-3xl`}>{children}</main>
+      <main className={`w-full max-w-3xl p-4`}>{children}</main>
       <Footer />
     </div>
   );
