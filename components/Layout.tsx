@@ -21,7 +21,7 @@ const Layout: React.FC<LayoutProps> = ({ children }) => {
         <title>yogjin.dev</title>
       </Head>
       <header
-        className={`z-50 flex flex-col w-full justify-center items-center bg-white sticky top-0 h-[3.5rem] ${
+        className={`z-50 flex flex-col w-full justify-center items-center bg-white sticky top-0 h-[3.5rem] p-4 ${
           scrollDirection === 'down' ? '-top-[3.5rem]' : 'top-0'
         } ${
           scrollLocation !== 0 && 'drop-shadow-md'
