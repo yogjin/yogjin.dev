@@ -4,6 +4,7 @@ import { FC } from 'react';
 import Date from '../../components/date';
 import TableOfContents from '../../components/TableOfContents';
 import Comment from '../../components/Comment';
+import { useIsMobile } from '../../hooks/useIsMobile';
 
 interface PostProps extends PostMetaData {}
 
@@ -14,6 +15,8 @@ const Post: FC<PostProps> = ({
   category,
   date,
 }) => {
+  const isMobile = useIsMobile();
+
   return (
     <>
       <article className={`flex flex-col mt-10 prose prose-a:text-blue-600`}>
@@ -23,9 +26,11 @@ const Post: FC<PostProps> = ({
         </div>
         <div dangerouslySetInnerHTML={{ __html: contentHtml! }} />
       </article>
-      <div className={`invisible xl:visible`}>
-        <TableOfContents />
-      </div>
+      {isMobile && (
+        <div>
+          <TableOfContents />
+        </div>
+      )}
       <div className={`xl:max-w-[90%]`}>
         <Comment />
       </div>
