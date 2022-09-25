@@ -31,7 +31,7 @@ const Home = ({
             className={`flex flex-col text-center left-0 top-0 bg-black bg-opacity-90 rounded-2xl py-6 my-2`}
           >
             <span className={`text-3xl font-semibold text-white mx-6`}>
-              yogjin's 개발 블로그
+              yogjin&apos;s 개발 블로그
             </span>
             <span className={`font-normal text-blue-500 mx-6`}>
               Frontend Developer, likes playing guitar
