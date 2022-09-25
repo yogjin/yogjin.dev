@@ -1,7 +1,7 @@
 ---
 title: 'Table Of Contents 삽질기'
 category: 'blog'
-date: '2022-08-31'
+date: '2022-09-25'
 thumbnail: '/thumbnails/blog-table-of-contents.png'
 ---
 
@@ -134,13 +134,15 @@ let options = {
 
 아쉽지만 viewport는 default (`0px 0px 0px 0px`)로 설정했다. (혹시 아시면 알려주세요..!)
 
-### 반응형 쿼리
+### 반응형 (media-query)
 
 구현을 위해 `개발자도구`를 열때 발견한 문제점이다.
 
 브라우저가 좁아졌을 때 `position:fixed`인 `TOC` 가 포스팅과 겹쳐 중복되어 보이고 있었다.
 
 또한 좌우로 화면 분할을 해서 포스팅을 보는 독자들도 있을 것이기 때문에 `Media Query`를 적용할 필요가 있었다.
+
+### :: tailwindcss 이용
 
 이 블로그는 `tailwindcss`를 이용해 스타일링을 하고있기 때문에 아래와 같이 간단히 적용해보았다.
 
@@ -158,8 +160,86 @@ let options = {
 ![반응형개선전1](/posts/devlog-table-of-contents/반응형개선전1.gif)_좀 더 빨리 사라져줄래..?_
 
 근데 빨리빨리 안사라지고 늦게 반응하는 문제가 있다.
-찾아보니 `useMediaQuery`라는 것을 사용하는 것 같은데..
 
-(업데이트 예정)
+찾아보니 `react-responsive`라는 라이브러리의 `useMediaQuery`라는 것을 사용하는
+것 같은데..
 
-[useMediaQuery 참고할 자료](https://velog.io/@st2702/%EB%B0%98%EC%9D%91%ED%98%95-%EC%9B%B9-Media-Query)
+->
+그냥 TOC에 부여했던 `transition-all duration-300` 이 문제였다.. 해당 style을 없애서 해결했다.
+
+### :: react-responsive 이용
+
+새로 알게된 라이브러리인 `react-responsive`를 이용해서도 반응형쿼리를 구현해보았다.
+
+`nextjs`는 `CSR` 방식으로 렌더링하는 `react`에 더해서 `SSG`, `SSR`도 하이브리드로 사용할 수 있게 해주는 아주 멋진 도구이다.
+
+즉 `nextjs`는 `react`의 프레임워크이기 때문에 react 라이브러리를 사용할 수 있다.
+
+라이브러리 설치
+
+```js
+yarn add react-responsive @types/react-responsive
+```
+
+hook으로 만들어서 조건부 렌더링하여 구현했다.
+
+```js
+import { useEffect, useState } from 'react';
+import { useMediaQuery } from 'react-responsive';
+
+export function useIsMobile() {
+  const [isMobile, setIsMobile] = useState(false);
+  const mobile = useMediaQuery({ query: '(min-width:1400px)' });
+
+  useEffect(() => {
+    setIsMobile(mobile);
+  }, [mobile]);
+
+  return isMobile;
+}
+```
+
+```js
+const isMobile = useIsMobile();
+return (
+  <>
+    ...
+    {isMobile && (
+      <div>
+        <TableOfContents />
+      </div>
+    )}
+    ...
+  </>
+);
+```
+
+### ::두 방식의 차이점 고민
+
+react-responsive로 state를 받아서 조건부렌더링을 하면 불필요한 컴포넌트를 아예 렌더링하지 않아도되는 장점이 있는 것 같다.
+
+css media-query를 이용하여 invisible, visible을 이용하면 이미 렌더링은 되기 때문에 만약 렌더링되는 컴포넌트가 크다면 로딩속도가 느려질 것이다.
+
+따라서 브라우저의 크기에 따라 반응형으로
+
+- 단순 숨기고 보이는 경우엔 `react-responsive`로 조건부 렌더링 이용
+- style이 바뀌어야하는 경우엔 css media-query를 이용
+
+하는 것이 좋다고 생각한다.
+
+## 4. 후기
+
+많은 웹사이트에서 보던 `ToC`를 구현하기까지 생각보다 많은 고민이 필요했다.
+
+- `document.querySelectorAll('h2, h3')` 로 제목들을 받아서 렌더링
+- `IntersectionObserver API`로 제목이 viewport에 들어왔는지 확인
+- `UX`에 대한 고민
+- 반응형 렌더링
+
+단 하나의 컴포넌트지만 직접 구현하며 부딪히고 해결하는 과정이 재밌었다.
+
+하지만 아직 문제점은 보이는데,
+
+제목이 viewport 맨 위를 탈출할때만 focusing이 되기 때문에 마지막 제목이 맨 위로 올라가기 까지의 스크롤이 부족하면 focusing이 되지않고 있다.
+
+이는 댓글밑에 `"볼만한 다른 포스팅"`과 같은 컴포넌트를 만들어서 `side-effect`로 자연스럽게 스크롤을 늘리는 방향으로 해결할 예정이다 😁
